@@ -1,0 +1,29 @@
+﻿@model TipoCuenta
+@{
+
+    ViewData["title"] = "Crear Tipo Cuenta";
+}
+
+<h1>Crear Tipo De Cuenta</h1>
+
+<h5>
+    Nos referimos a como se agruparan las cuentas.
+    por ejemplo si esta es de: Prestamos, Tarjetas de credito, etc.
+</h5>
+
+@{
+    //por defecto no es necesario poner el "asp-controller" porque la vista ya esta en la carpeta referenciada por el controlador, pero como buena practica
+}
+<form asp-controller="TiposCuentas" asp-action="Crear">
+    <div class="mb-3">
+        <label class="form-label" for="Nombre">
+            Nombre
+        </label>
+        <input type="text" id="Nombre" name="Nombre" class="form-control"/>
+
+    </div>
+
+    <button class="btn btn-primary" type="submit">Crear</button>
+</form>
+
+
