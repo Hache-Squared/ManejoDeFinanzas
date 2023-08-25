@@ -12,10 +12,12 @@
 </h5>
 
 @{
-    //por defecto no es necesario poner el "asp-controller" porque la vista ya esta en la carpeta referenciada por el controlador, pero como buena practica
+    //por defecto no es necesario poner el "asp-controller" porque la vista ya esta en la carpeta referenciada por el controlador, pero como buena practica,
+
+    //Los errores ModelOnly se mostraran a nivel de todo el modelo, ignorando validaciones de los campos
 }
 
-<div class="text-danger" asp-validation-summary="All">
+<div class="text-danger" asp-validation-summary="ModelOnly">
 
 </div>
 
@@ -28,29 +30,6 @@
     </div>
 
 
-    <div class="mb-3">
-        <label class="form-label" asp-for="Email"></label>
-        <input type="text" id="Email" name="Email" class="form-control" asp-for="Email" />
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label" asp-for="Edad"></label>
-        <input type="text" id="Edad" name="Edad" class="form-control" asp-for="Edad" />
-        <span asp-validation-for="Edad" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label" asp-for="Url"></label>
-        <input type="text" id="Url" name="Url" class="form-control" asp-for="Url" />
-        <span asp-validation-for="Url" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label" asp-for="TarjetaDeCredito"></label>
-        <input type="text" id="TarjetaDeCredito" name="TarjetaDeCredito" class="form-control" asp-for="TarjetaDeCredito" />
-        <span asp-validation-for="TarjetaDeCredito" class="text-danger"></span>
-    </div>
 
     <button class="btn btn-primary" type="submit">Crear</button>
 </form>

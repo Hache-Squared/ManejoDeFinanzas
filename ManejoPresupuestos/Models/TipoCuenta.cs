@@ -1,33 +1,39 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ManejoPresupuestos.Validaciones;
+using System.ComponentModel.DataAnnotations;
 
 namespace ManejoPresupuestos.Models
 {
-    public class TipoCuenta
+    public class TipoCuenta // : IValidatableObject
     {
         public int Id { get; set; }
-        [Display(Name ="Nombre")]
+
+        
         [Required(ErrorMessage ="El campo {0} es requerido")]
-        [StringLength(maximumLength: 50, MinimumLength = 3, ErrorMessage = "El campo {0} debe estar entre {2} y {1} caracteres")]
+        //Validacion Personalizada
+        [PrimeraLetraMayuscula]
         public string Nombre { get; set; }
         public int UsuarioId { get; set; }
         public int Orden { get; set; }
 
 
-        /*
-         Pruebas de validaciones por defecto
-         */
-        [Required(ErrorMessage ="{0} es requerido")]
-        [EmailAddress(ErrorMessage = "{0} No es valido")]
-        public string Email { get; set; }
+        //Esta es una validacion de tipo Modelo,
+        //es por eso hay una etiqueta con atributo 'asp-validation-summary="ModelOnly"' que muestra errores del modelo
 
-        [Range(minimum:18, maximum:130, ErrorMessage = "El valor debe ser entre {1} y {2}")]
-        public int Edad { get; set; }
+        //public ienumerable<validationresult> validate(validationcontext validationcontext)
+        //{
+        //    if(nombre != null && nombre.length > 0)
+        //    {
+        //        var primeraletra = nombre[0].tostring();
+        //        if(primeraletra != primeraletra.toupper())
+        //        {
+        //            yield return new validationresult("la primera letra debe ser mayuscula",new[]
+        //            {
+        //                nameof(nombre)
+        //            });
+        //        }
+        //    }
+        //}
 
-        [Url(ErrorMessage ="{0} No valida")]
-        public string Url { get; set; }
 
-        [Display(Name ="Tarjeta de Credito")]
-        [CreditCard(ErrorMessage ="Tarjeta no valida")]
-        public string TarjetaDeCredito { get; set; }
     }
 }
