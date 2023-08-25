@@ -14,16 +14,52 @@
 @{
     //por defecto no es necesario poner el "asp-controller" porque la vista ya esta en la carpeta referenciada por el controlador, pero como buena practica
 }
+
+<div class="text-danger" asp-validation-summary="All">
+
+</div>
+
+
 <form asp-controller="TiposCuentas" asp-action="Crear">
     <div class="mb-3">
-        <label class="form-label" for="Nombre">
-            Nombre
-        </label>
-        <input type="text" id="Nombre" name="Nombre" class="form-control"/>
+        <label class="form-label" asp-for="Nombre"></label>
+        <input type="text" id="Nombre" name="Nombre" class="form-control" asp-for="Nombre"/>
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
 
+
+    <div class="mb-3">
+        <label class="form-label" asp-for="Email"></label>
+        <input type="text" id="Email" name="Email" class="form-control" asp-for="Email" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label" asp-for="Edad"></label>
+        <input type="text" id="Edad" name="Edad" class="form-control" asp-for="Edad" />
+        <span asp-validation-for="Edad" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label" asp-for="Url"></label>
+        <input type="text" id="Url" name="Url" class="form-control" asp-for="Url" />
+        <span asp-validation-for="Url" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label" asp-for="TarjetaDeCredito"></label>
+        <input type="text" id="TarjetaDeCredito" name="TarjetaDeCredito" class="form-control" asp-for="TarjetaDeCredito" />
+        <span asp-validation-for="TarjetaDeCredito" class="text-danger"></span>
     </div>
 
     <button class="btn btn-primary" type="submit">Crear</button>
 </form>
 
 
+@section Scripts {
+    <!--
+        ESTA ES UNA SECCION DE SCRIPTS QUE SE CARGARA EN _Layout EN Shared Y SIRVE PARA CARGAR CIERTOS SCRIPTS 
+        QUE REQUIEREN ESTAR AL FINAL DE NUESTRO _Layout, ES UNA FORMA DE HACER IMPORTACIONES DESDE VARIAS PARTES DEL PROYECTO
+    -->
+    <partial name="_ValidationScriptsPartial" />
+}
