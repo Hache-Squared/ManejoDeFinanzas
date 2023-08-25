@@ -1,4 +1,5 @@
 ﻿using ManejoPresupuestos.Validaciones;
+using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace ManejoPresupuestos.Models
@@ -11,6 +12,7 @@ namespace ManejoPresupuestos.Models
         [Required(ErrorMessage ="El campo {0} es requerido")]
         //Validacion Personalizada
         [PrimeraLetraMayuscula]
+        [Remote(action: "VerificarExisteTipoCuenta", controller: "TiposCuentas")]
         public string Nombre { get; set; }
         public int UsuarioId { get; set; }
         public int Orden { get; set; }
