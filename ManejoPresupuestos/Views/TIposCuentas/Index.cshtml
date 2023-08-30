@@ -28,8 +28,19 @@
         {
             <tr>
                 <td>
-                    <button class="btn btn-primary">Editar</button>
-                    <button class="btn btn-danger">Borrar</button>
+                    <a class="btn btn-primary" asp-action="Editar"
+                        asp-route-id="@tipoCuenta.Id" 
+                    >Editar</a>
+
+                    <!--
+
+                        <a class="btn btn-primary" asp-action="Editar"
+                        asp-route-id="@tipoCuenta.Id"
+                        asp-route-extra="YO SOY EXTRA"
+                        asp-route-full="FUAAAA"
+                        >Editar</a>
+                    -->
+                    <a class="btn btn-danger">Borrar</a>
                 </td>
                 <td>
                     <span>@tipoCuenta.Nombre</span>

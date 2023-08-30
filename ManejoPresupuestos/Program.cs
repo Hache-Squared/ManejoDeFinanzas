@@ -26,8 +26,18 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+
+/*
+ CUANDO USAMOS 
+ /{extra?}/{full?}
+    Significa que cuando usemos las etiquetas <a> con el atributo asp-route-extra="extra" o asp-route-full="fua"
+    significa que los valores en el enrutamiento se veran afectadas, es decir que el valor sera asignado en la ruta,
+    si se usa asp-route-atributo="atributo" este no sera reconocido por la ruta y simplemente sera usado en la ruta directamente como
+    /?atributo="atributo" y como con /extra/fua/atributo/
+ */
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+//pattern: "{controller=Home}/{action=Index}/{id?}/{extra?}/{full?}");
 
 app.Run();

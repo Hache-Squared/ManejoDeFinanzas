@@ -1,0 +1,38 @@
+﻿@model TipoCuenta;
+
+
+@{
+    ViewData["Title"] = "Editar Tipo Cuenta";
+}
+
+
+
+<h1>Editar Tipo Cuenta @Model.Nombre</h1>
+
+
+<div class="text-danger" asp-validation-summary="ModelOnly">
+</div>
+
+
+<form asp-action="Editar" >
+    <input type="hidden" asp-for="Id"/>
+    <div class="mb-3">
+        <label class="form-label" asp-for="Nombre"></label>
+        <input type="text" id="Nombre" name="Nombre" class="form-control" asp-for="Nombre" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+
+
+
+    <button class="btn btn-primary" type="submit">Enviar</button>
+    <a class="btn btn-secondary" asp-action="Index">Cancelar</a>
+</form>
+
+
+@section Scripts {
+    <!--
+        ESTA ES UNA SECCION DE SCRIPTS QUE SE CARGARA EN _Layout EN Shared Y SIRVE PARA CARGAR CIERTOS SCRIPTS
+        QUE REQUIEREN ESTAR AL FINAL DE NUESTRO _Layout, ES UNA FORMA DE HACER IMPORTACIONES DESDE VARIAS PARTES DEL PROYECTO
+    -->
+    <partial name="_ValidationScriptsPartial" />
+}
