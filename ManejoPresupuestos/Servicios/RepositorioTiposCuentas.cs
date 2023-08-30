@@ -12,6 +12,7 @@ namespace ManejoPresupuestos.Servicios
         Task<bool> Existe(string nombre, int usuarioId);
         Task<IEnumerable<TipoCuenta>> Obtener(int usuarioId);
         Task<TipoCuenta> ObtenerPorId(int id, int usuarioId);
+        Task Ordenar(IEnumerable<TipoCuenta> tipoCuentaOrdenados);
     }
     public class RepositorioTiposCuentas : IRepositorioTiposCuentas
     {
@@ -61,7 +62,7 @@ namespace ManejoPresupuestos.Servicios
             using var connection = new SqlConnection(connectionString);
 
             return await connection.QueryAsync<TipoCuenta>(
-                                @"SELECT id,Nombre, Orden  FROM TiposCuentas WHERE UsuarioId = @UsuarioId;",
+                                @"SELECT id,Nombre, Orden  FROM TiposCuentas WHERE UsuarioId = @UsuarioId ORDER BY Orden;",
                                 new { usuarioId }
                                 );
         }
@@ -94,5 +95,17 @@ namespace ManejoPresupuestos.Servicios
             await connection.ExecuteAsync(@"DELETE TiposCuentas WHERE Id = @Id AND UsuarioId = @usuarioId", new { id, usuarioId });
         }
 
+        public async Task Ordenar(IEnumerable<TipoCuenta> tipoCuentaOrdenados)
+        {
+            //ESTAMOS PASANDO IEnumerable lo que quiere decir que:
+            /*
+             await connection.ExecuteAsync(query, tipoCuentaOrdenados);
+                
+            se hara dependiendo el tamaño de tipoCuentaOrdenados, se hace en automatico cada consulta.
+             */
+            var query = "UPDATE TiposCuentas SET Orden = @Orden WHERE Id = @Id;";
+            using var connection = new SqlConnection(connectionString);
+            await connection.ExecuteAsync(query, tipoCuentaOrdenados);
+        }
     }
 }
