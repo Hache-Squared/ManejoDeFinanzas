@@ -1,0 +1,41 @@
+﻿@model IEnumerable<TipoCuenta>
+
+@{
+    ViewData["Title"] = "Tipos de Cuenta";
+}
+
+
+<h1>
+    Tipos de cuenta
+</h1>
+
+<h5>
+    Se refiere a cómo podemos agrupar cuentas.
+    Por ejemplo: Prestamos, Tarjetas de credito, etc.
+</h5>
+
+<a asp-action="Crear" class="btn btn-primary">Crear Nuevo</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <td>Acciones</td>
+            <td>Nombre</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var tipoCuenta in Model)
+        {
+            <tr>
+                <td>
+                    <button class="btn btn-primary">Editar</button>
+                    <button class="btn btn-danger">Borrar</button>
+                </td>
+                <td>
+                    <span>@tipoCuenta.Nombre</span>
+                </td>
+            </tr>
+        }
+    </tbody>
+    
+</table>
