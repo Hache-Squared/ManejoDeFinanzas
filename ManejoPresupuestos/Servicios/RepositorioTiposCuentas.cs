@@ -31,13 +31,16 @@ namespace ManejoPresupuestos.Servicios
             //POR EJEMPLO SI EN EL MODELO HAY UNA PROPIEDAD LLAMADA "Nombre" EL LO QUE HARA ES RELACIONARLA CON @Nombre
             using var connection = new SqlConnection(connectionString);
             var id = await connection.QuerySingleAsync<int>(
-                                                 @"INSERT INTO TiposCuentas(Nombre, UsuarioId, Orden)
-                                                    VALUES (@Nombre, @UsuarioId, 0);
-                                                     SELECT SCOPE_IDENTITY();",
-                                                     tipoCuenta
-                                                    );
+                            "TiposCuentas_Insertar",
+                                new
+                                {
+                                    usuarioId = tipoCuenta.UsuarioId,
+                                    nombre = tipoCuenta.Nombre,
 
-            
+                                },
+                                commandType: System.Data.CommandType.StoredProcedure);
+
+            tipoCuenta.Id = id;
         }
 
         public async Task<bool> Existe(string nombre, int usuarioId)
