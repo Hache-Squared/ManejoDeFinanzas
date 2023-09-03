@@ -1,4 +1,5 @@
-﻿using ManejoPresupuestos.Models;
+﻿using AutoMapper;
+using ManejoPresupuestos.Models;
 using ManejoPresupuestos.Servicios;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,16 +12,19 @@ namespace ManejoPresupuestos.Controllers
         private readonly IRepositorioTiposCuentas repositorioTiposCuentas;
         private readonly IServicioUsuarios servicioUsuarios;
         private readonly IRepositorioCuentas repositorioCuentas;
+        private readonly IMapper mapper;
 
         public CuentasController(
             IRepositorioTiposCuentas repositorioTiposCuentas,
             IServicioUsuarios servicioUsuarios,
-            IRepositorioCuentas repositorioCuentas
+            IRepositorioCuentas repositorioCuentas,
+            IMapper mapper
             )
         {
             this.repositorioTiposCuentas = repositorioTiposCuentas;
             this.servicioUsuarios = servicioUsuarios;
             this.repositorioCuentas = repositorioCuentas;
+            this.mapper = mapper;
         }
 
         [HttpGet]
@@ -86,6 +90,7 @@ namespace ManejoPresupuestos.Controllers
             {
                 return RedirectToAction("NoEncontrado", "Home");
             }
+            /*
             var modelo = new CuentaCreacionViewModel()
             {
                 Id = cuenta.Id,
@@ -94,6 +99,12 @@ namespace ManejoPresupuestos.Controllers
                 Descripcion = cuenta.Descripcion,
                 Balance = cuenta.Balance,
             };
+            */
+            //pasamos las propiedades de Cuenta a CuentaCreacionViewModel ya que esta ultima hereda todas las propiedades y necesitamos asignar una por una
+            //  ala clase destino
+            var modelo = mapper.Map<CuentaCreacionViewModel>(cuenta);
+
+
             modelo.TiposCuentas = await ObtenerTiposCuentas(usuarioId);
 
             return View(modelo);
@@ -117,6 +128,12 @@ namespace ManejoPresupuestos.Controllers
             {
                 return RedirectToAction("NoEncontrado", "Home");
             }
+
+            if (!ModelState.IsValid)
+            {
+                return View(cuentaEditar);
+            }
+
             await repositorioCuentas.Actualizar(cuentaEditar);
             return RedirectToAction("Index");
         }
