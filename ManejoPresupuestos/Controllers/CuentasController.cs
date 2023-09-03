@@ -77,5 +77,49 @@ namespace ManejoPresupuestos.Controllers
 
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Editar(int id)
+        {
+            var usuarioId = servicioUsuarios.ObtenerUsuarioId();
+            var cuenta = await repositorioCuentas.ObtenerPorId(id, usuarioId);
+            if(cuenta is null)
+            {
+                return RedirectToAction("NoEncontrado", "Home");
+            }
+            var modelo = new CuentaCreacionViewModel()
+            {
+                Id = cuenta.Id,
+                Nombre = cuenta.Nombre,
+                TipoCuentaId = cuenta.TipoCuentaId,
+                Descripcion = cuenta.Descripcion,
+                Balance = cuenta.Balance,
+            };
+            modelo.TiposCuentas = await ObtenerTiposCuentas(usuarioId);
+
+            return View(modelo);
+
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Editar(CuentaCreacionViewModel cuentaEditar)
+        {
+            var usuarioId = servicioUsuarios.ObtenerUsuarioId();
+            var cuenta = await repositorioCuentas.ObtenerPorId(cuentaEditar.Id, usuarioId);
+            if (cuenta is null)
+            {
+                return RedirectToAction("NoEncontrado", "Home");
+            }
+
+            var tipoCuenta = await repositorioTiposCuentas.ObtenerPorId(cuentaEditar.TipoCuentaId, usuarioId);
+
+            if(tipoCuenta is null)
+            {
+                return RedirectToAction("NoEncontrado", "Home");
+            }
+            await repositorioCuentas.Actualizar(cuentaEditar);
+            return RedirectToAction("Index");
+        }
+
     }
 }
