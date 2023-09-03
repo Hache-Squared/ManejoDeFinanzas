@@ -8,6 +8,8 @@ builder.Services.AddControllersWithViews();
 //Es AddTransient porque esta vez no compartiremos datos
 builder.Services.AddTransient<IRepositorioTiposCuentas, RepositorioTiposCuentas>();
 builder.Services.AddTransient<IServicioUsuarios, ServicioUsuarios>();
+builder.Services.AddTransient<IRepositorioCuentas, RepositorioCuentas>();
+    
 
 var app = builder.Build();
 
