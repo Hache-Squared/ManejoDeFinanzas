@@ -10,16 +10,19 @@ namespace ManejoPresupuestos.Controllers
         private readonly IRepositorioTransacciones repositorioTransacciones;
         private readonly IRepositorioCuentas repositorioCuentas;
         private readonly IServicioUsuarios servicioUsuarios;
+        private readonly IRepositorioCategorias repositorioCategorias;
 
         public TransaccionesController(
             IRepositorioTransacciones repositorioTransacciones, 
             IRepositorioCuentas repositorioCuentas,
-            IServicioUsuarios servicioUsuarios
+            IServicioUsuarios servicioUsuarios,
+            IRepositorioCategorias repositorioCategorias
             )
         {
             this.repositorioTransacciones = repositorioTransacciones;
             this.repositorioCuentas = repositorioCuentas;
             this.servicioUsuarios = servicioUsuarios;
+            this.repositorioCategorias = repositorioCategorias;
         }
 
         public async Task<IActionResult> Crear()
@@ -27,6 +30,7 @@ namespace ManejoPresupuestos.Controllers
             var usuarioId = servicioUsuarios.ObtenerUsuarioId();
             var modelo = new TransaccionCreacionViewModel();
             modelo.Cuentas = await ObtenerCuentas(usuarioId);
+            modelo.Categorias = await ObtenerCategorias(usuarioId, modelo.TipoOperacionId);
             return View(modelo);
 
         }
@@ -37,6 +41,21 @@ namespace ManejoPresupuestos.Controllers
             return cuentas.Select(x => new SelectListItem(x.Nombre, x.Id.ToString())).ToList();
         }
 
+        private async Task<IEnumerable<SelectListItem>> ObtenerCategorias(int usuarioId, TipoOperacion tipoOperacion)
+        {
+            var categorias = await repositorioCategorias.Obtener(usuarioId, tipoOperacion);
+
+            return categorias.Select(x => new SelectListItem(x.Nombre,x.Id.ToString())).ToList();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ObtenerCategorias([FromBody] TipoOperacion tipoOperacion)
+        {
+            var usuarioId = servicioUsuarios.ObtenerUsuarioId();
+            var categorias = await ObtenerCategorias(usuarioId, tipoOperacion);
+
+            return Ok(categorias); //DECIMOS QUE TODO ESTA BIEN Y ADJUNTAMOS LA DATA OBTENIDA
+        }
 
     }
 }
