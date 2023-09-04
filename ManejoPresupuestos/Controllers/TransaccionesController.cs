@@ -35,6 +35,41 @@ namespace ManejoPresupuestos.Controllers
 
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Crear(TransaccionCreacionViewModel modelo)
+        {
+            var usuarioId = servicioUsuarios.ObtenerUsuarioId();
+            if (!ModelState.IsValid)
+            {
+                modelo.Cuentas = await ObtenerCuentas(usuarioId);
+                modelo.Categorias = await ObtenerCategorias(usuarioId, modelo.TipoOperacionId);
+                return View(modelo);
+            }
+
+            var cuenta = await repositorioCuentas.ObtenerPorId(modelo.CuentaId, usuarioId);
+
+            if(cuenta is null)
+            {
+                return RedirectToAction("NoEncontrado", "Home");
+            }
+
+            var categoria = await repositorioCategorias.ObtenerPorId(modelo.CategoriaId, usuarioId);
+
+            if (categoria is null)
+            {
+                return RedirectToAction("NoEncontrado", "Home");
+            }
+
+            modelo.UsuarioId = usuarioId;
+            if(modelo.TipoOperacionId == TipoOperacion.Gasto)
+            {
+                modelo.Monto *= -1;
+            }
+
+            await repositorioTransacciones.Crear(modelo);
+            return RedirectToAction("Index");
+        }
+
         private async Task<IEnumerable<SelectListItem>> ObtenerCuentas(int usuarioId)
         {
             var cuentas = await repositorioCuentas.Buscar(usuarioId);
