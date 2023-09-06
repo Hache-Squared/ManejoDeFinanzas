@@ -22,17 +22,21 @@ namespace ManejoPresupuestos.Models
         public decimal Monto { get; set; }
 
         [Display(Name = "Categoria")]
-        [Range(0, maximum: int.MaxValue, ErrorMessage ="Debe seleccionar una categoria")]
+        [Range(0, maximum: int.MaxValue, ErrorMessage = "Debe seleccionar una categoria")]
         public int CategoriaId { get; set; }
 
-        [StringLength(maximumLength: 1000, ErrorMessage ="La nota no debe pasar de {1} caracteres")]
+        [StringLength(maximumLength: 1000, ErrorMessage = "La nota no debe pasar de {1} caracteres")]
         public string Nota { get; set; }
 
         [Display(Name = "Cuenta")]
         [Range(0, maximum: int.MaxValue, ErrorMessage = "Debe seleccionar una cuenta")]
         public int CuentaId { get; set; }
-        
+
         [Display(Name = "Tipo de operación")]
-        public TipoOperacion TipoOperacionId { get; set;} = TipoOperacion.Ingreso;
+        public TipoOperacion TipoOperacionId { get; set; } = TipoOperacion.Ingreso;
+
+        public string Cuenta { get; set; }
+
+        public string Categoria { get; set; }
     }
 }
