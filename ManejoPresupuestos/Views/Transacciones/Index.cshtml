@@ -1,10 +1,8 @@
-﻿@model IEnumerable<Transaccion>
+﻿@model ReporteTransaccionesDetalladas
 
 @{
-    ViewData["Title"] = "Transacciones";
+    ViewData["Title"] = "Reporte Diario";
 }
 
 
-<h1>
-    Transacciones
-</h1>
+<partial name="_ReporteTransaccionesDetalladas" model="@Model" />
