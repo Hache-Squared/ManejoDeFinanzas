@@ -30,9 +30,59 @@ namespace ManejoPresupuestos.Controllers
             this.mapper = mapper;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int mes,int año)
         {
-            return View();
+            var usuarioId = servicioUsuarios.ObtenerUsuarioId();
+            DateTime fechaInicio;
+            DateTime fechaFin;
+
+            if (mes <= 0 || mes > 12 || año <= 1900)
+            {
+                var hoy = DateTime.Today;
+                fechaInicio = new DateTime(hoy.Year, hoy.Month, 1);
+            }
+            else
+            {
+                fechaInicio = new DateTime(año, mes, 1);
+            }
+
+            //AGREGA UN MES A LA FECHA INICIAL Y LUEGO QUITALE UN DIA ES DECIR ELIGE EL ULTIMO DIA DEL MES DE FECHAINICIO
+            fechaFin = fechaInicio.AddMonths(1).AddDays(-1);
+            var parametro = new ParametroObtenerTransaccionesPorUsuario()
+            {
+                UsuarioId= usuarioId,
+                FechaInicio = fechaInicio,
+                FechaFin= fechaFin,
+            };
+
+            var transacciones = await repositorioTransacciones.ObtenerPorUsuarioId(parametro);
+
+            var modelo = new ReporteTransaccionesDetalladas();
+
+            //ORDENAMOS DE MANERA DESENDENTE Y AGRUPAMOS POR FECHA PARA OBTENER TODAS LAS TRANSACCIONES DEL MES,
+            //POR ULTIMO CREAMOS UNA CLASE QUE NOS AYUDARA A ENCAPSULAR LAS TRANSACCIONES POR DIA
+            var transaccionesPorFecha = transacciones.OrderByDescending(x => x.FechaTransaccion)
+                                         .GroupBy(x => x.FechaTransaccion)
+                                         .Select(grupo => new ReporteTransaccionesDetalladas.TransaccionesPorFecha()
+                                         {
+                                             FechaTransaccion = grupo.Key,
+                                             Transacciones = grupo.AsEnumerable(),
+                                         });
+            modelo.TransaccionesAgrupadas = transaccionesPorFecha;
+            modelo.FechaInicio = fechaInicio;
+            modelo.FechaFin = fechaFin;
+
+            //dato de fecha de hace un mes
+            ViewBag.mesAnterior = fechaInicio.AddMonths(-1).Month;
+            ViewBag.añoAnterior = fechaInicio.AddMonths(-1).Year;
+
+            //dato de fecha de un mes en adelante
+            ViewBag.mesPosterior = fechaInicio.AddMonths(1).Month;
+            ViewBag.añoPosterior = fechaInicio.AddMonths(1).Year;
+
+            ViewBag.urlRetorno = HttpContext.Request.Path + HttpContext.Request.QueryString;
+
+            return View(modelo);
         }
 
         public async Task<IActionResult> Crear()
