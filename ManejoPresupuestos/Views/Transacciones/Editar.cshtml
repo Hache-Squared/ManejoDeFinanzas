@@ -1,6 +1,7 @@
 ﻿@model TransaccionActualizacionViewModel
 @{
     ViewData["Title"] = "Editar Transaccion";
+    var linkCancelar = Model.UrlRetorno ?? Url.Action("Index");
 }
 
 <h1>Editar Transaccion</h1>
@@ -13,6 +14,7 @@
     <input type="hidden" asp-for="Id" />
     <input type="hidden" asp-for="MontoAnterior" />
     <input type="hidden" asp-for="CuentaAnteriorId" />
+    <input type="hidden" asp-for="UrlRetorno" />
 
     <div class="mb-3">
         <label asp-for="FechaTransaccion" class="form-label"></label>
@@ -59,7 +61,7 @@
         Borrar
     </button>
 
-    <a asp-action="Index" class="btn btn-secondary">
+    <a href="@linkCancelar" class="btn btn-secondary">
         Cancelar
     </a>
 </form>
