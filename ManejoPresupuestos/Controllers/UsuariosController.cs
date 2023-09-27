@@ -1,5 +1,6 @@
 ﻿using ManejoPresupuestos.Models;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -16,11 +17,13 @@ namespace ManejoPresupuestos.Controllers
             this.userManager = userManager;
             this.signInManager = signInManager;
         }
+        [AllowAnonymous]
         public IActionResult Registro()
         {
             return View();
         }
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Registro(RegistroViewModel modelo)
         {
             if(!ModelState.IsValid)
@@ -60,6 +63,7 @@ namespace ManejoPresupuestos.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Login()
         {
             
@@ -67,6 +71,7 @@ namespace ManejoPresupuestos.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel modelo)
         {
             if (!ModelState.IsValid)

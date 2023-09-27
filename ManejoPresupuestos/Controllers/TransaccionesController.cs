@@ -2,6 +2,7 @@
 using ClosedXML.Excel;
 using ManejoPresupuestos.Models;
 using ManejoPresupuestos.Servicios;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
@@ -9,6 +10,7 @@ using System.Reflection;
 
 namespace ManejoPresupuestos.Controllers
 {
+    
     public class TransaccionesController : Controller
     {
         private readonly IRepositorioTransacciones repositorioTransacciones;
@@ -34,7 +36,7 @@ namespace ManejoPresupuestos.Controllers
             this.mapper = mapper;
             this.servicioReportes = servicioReportes;
         }
-
+        
         public async Task<IActionResult> Index(int mes,int año)
         {
             var usuarioId = servicioUsuarios.ObtenerUsuarioId();

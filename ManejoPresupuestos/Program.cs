@@ -1,11 +1,20 @@
 using ManejoPresupuestos.Models;
 using ManejoPresupuestos.Servicios;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var politicaUsuariosAutenticados = new AuthorizationPolicyBuilder()
+                                    .RequireAuthenticatedUser()
+                                    .Build();
+
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(opciones =>
+{
+    opciones.Filters.Add(new AuthorizeFilter(politicaUsuariosAutenticados));
+});
 
 //Es AddTransient porque esta vez no compartiremos datos
 builder.Services.AddTransient<IRepositorioTiposCuentas, RepositorioTiposCuentas>();
@@ -34,7 +43,10 @@ builder.Services.AddAuthentication(options =>
     options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
     options.DefaultSignOutScheme = IdentityConstants.ApplicationScheme;
 
-}).AddCookie(IdentityConstants.ApplicationScheme);
+}).AddCookie(IdentityConstants.ApplicationScheme, opciones =>
+{
+    opciones.LoginPath = "/usuarios/login/";
+});
 
 //----
 
