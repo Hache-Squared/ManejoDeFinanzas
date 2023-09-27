@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace ManejoPresupuestos.Controllers
 {
@@ -61,6 +62,7 @@ namespace ManejoPresupuestos.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            
             return View();
         }
 
