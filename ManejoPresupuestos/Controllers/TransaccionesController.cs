@@ -269,6 +269,20 @@ namespace ManejoPresupuestos.Controllers
 
             return Json(eventosCalendario);
         }
+        
+        public async Task<JsonResult> ObtenerTransaccionesPorFecha(DateTime fecha)
+        {
+            var usuarioId = servicioUsuarios.ObtenerUsuarioId();
+            var transacciones = await repositorioTransacciones.ObtenerPorUsuarioId(
+                new ParametroObtenerTransaccionesPorUsuario()
+                {
+                    FechaInicio = fecha,
+                    FechaFin = fecha,
+                    UsuarioId = usuarioId,
+                });
+
+            return Json(transacciones);
+        }
 
         public async Task<IActionResult> Crear()
         {
