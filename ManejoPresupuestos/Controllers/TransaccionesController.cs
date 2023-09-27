@@ -249,6 +249,26 @@ namespace ManejoPresupuestos.Controllers
 
             return View();
         }
+        public async Task<JsonResult> ObtenerTransaccionesCalendario(DateTime start, DateTime end)
+        {
+            var usuarioId = servicioUsuarios.ObtenerUsuarioId();
+            var transacciones = await repositorioTransacciones.ObtenerPorUsuarioId(
+                new ParametroObtenerTransaccionesPorUsuario()
+                {
+                    FechaInicio = start,
+                    FechaFin = end,
+                    UsuarioId = usuarioId,
+                });
+            var eventosCalendario = transacciones.Select(transaccion => new EventoCalendario()
+            {
+                Title = transaccion.Monto.ToString("N"),
+                Start = transaccion.FechaTransaccion.ToString("yyyy-MM-dd"),
+                End = transaccion.FechaTransaccion.ToString("yyyy-MM-dd"),
+                Color = (transaccion.TipoOperacionId == TipoOperacion.Gasto) ? "Red" : null
+            });
+
+            return Json(eventosCalendario);
+        }
 
         public async Task<IActionResult> Crear()
         {
