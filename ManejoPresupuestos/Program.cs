@@ -23,7 +23,8 @@ builder.Services.AddIdentityCore<Usuario>(opciones =>
     opciones.Password.RequireLowercase = false;
     opciones.Password.RequireUppercase = false;
     opciones.Password.RequireNonAlphanumeric = false;
-});
+
+}).AddErrorDescriber<MensajesDeErrorIdentity>();
 //----
 
 builder.Services.AddHttpContextAccessor();
