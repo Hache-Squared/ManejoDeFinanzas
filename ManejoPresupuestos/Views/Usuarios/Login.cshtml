@@ -7,33 +7,42 @@
 
 <h1>Login</h1>
 
-<form asp-action="Login">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="card">
+    <div class="card-body">
 
-    <div class="mb-3">
-        <label asp-for="Email" class="form-label"></label>
-        <input asp-for="Email" class="form-control"></input>
-        <span asp-validation-for="Email" class="text-danger"></span>
+        <form asp-action="Login">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control"></input>
+                <span asp-validation-for="Email" class="text-danger"></span>
+
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label"></label>
+                <input asp-for="Password" class="form-control"></input>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-check">
+                <input asp-for="Recuerdame" class="form-check-input" type="checkbox"></input>
+                <label asp-for="Recuerdame" class="form-label"></label>
+            </div>
+
+
+            <button class="btn btn-primary">
+                Login
+            </button>
+            <a class="btn btn-success" asp-action="Registro">
+                Registrarse
+            </a>
+
+        </form>
 
     </div>
-
-    <div class="mb-3">
-        <label asp-for="Password" class="form-label"></label>
-        <input asp-for="Password" class="form-control"></input>
-        <span asp-validation-for="Password" class="text-danger"></span>
-    </div>
-
-    <div class="form-check">
-        <input asp-for="Recuerdame" class="form-check-input" type="checkbox"></input>
-        <label asp-for="Recuerdame" class="form-label"></label>
-    </div>
-
-
-    <button class="btn btn-primary">
-        Login
-    </button>
-
-</form>
+</div>
 
 
 @section Scripts {
